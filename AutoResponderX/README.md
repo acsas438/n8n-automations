@@ -127,75 +127,9 @@ The AI agent is configured to generate responses with:
 4. **Test Configuration**: Run a test execution to verify all connections
 5. **Activate Workflow**: Enable the workflow for production use
 
-## Customization Options
-
-### Response Templates
-Modify the AI agent prompt to:
-- Change response tone and style
-- Add company-specific branding
-- Include custom signatures
-- Adjust response length and format
-
-### Logging Enhancements
-Extend Excel logging to include:
-- Response time metrics
-- Email categorization
-- Priority flags
-- Follow-up reminders
-
-### Integration Extensions
-Add additional nodes for:
-- Slack notifications for urgent emails
-- CRM integration for lead tracking
-- Calendar scheduling for follow-ups
-- Analytics dashboard updates
-
-## Monitoring and Maintenance
-
-### Key Metrics to Track
-- Number of emails processed per day
-- Response generation time
-- User satisfaction with AI responses
-- System uptime and reliability
-
-### Regular Maintenance
-- Review and update AI response templates
-- Monitor API usage and quotas
-- Clean up old Excel logs
-- Update email filters and rules
-
-## Troubleshooting
-
-### Common Issues
-1. **Gmail API Limits**: Monitor daily quota usage
-2. **AI Response Quality**: Review and refine prompts
-3. **Excel Connection**: Verify workbook permissions
-4. **Schedule Execution**: Check trigger configuration
-
-### Debug Mode
-Enable debug logging in n8n to track:
-- API call responses
-- Data transformation steps
-- Error handling and recovery
-
-## Security Considerations
-
-- All API credentials are stored securely in n8n
-- OAuth2 authentication for all external services
-- No sensitive data is logged in plain text
-- Regular credential rotation recommended
-
-## Support and Updates
-
-For workflow updates and support:
-- Monitor n8n community forums
-- Check API provider documentation
-- Review workflow execution logs
-- Test changes in development environment first
-
 ---
 
 **Version**: 1.0  
-**Last Updated**: January 2025  
+**Last Updated**: August 2025  
 **Compatibility**: n8n v1.0+  
 **Author**: Amit Gangwar 

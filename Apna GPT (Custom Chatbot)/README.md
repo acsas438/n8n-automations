@@ -98,6 +98,6 @@ The AI agent is configured to:
 ---
 
 **Version**: 1.0  
-**Last Updated**: January 2025  
+**Last Updated**: August 2025  
 **Compatibility**: n8n v1.0+  
 **Author**: Amit Gangwar 
