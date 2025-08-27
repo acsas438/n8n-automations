@@ -82,7 +82,7 @@ The AI agent is configured to:
 
 ## Workflow Image
 
-![Apna GPT Custom Chatbot Workflow](workflow-diagram.png)
+![Apna GPT Custom Chatbot Workflow](https://ibb.co/mrsZB3z7)
 
 *Note: This is a placeholder image. Replace with actual workflow screenshot when hosted.*
 
