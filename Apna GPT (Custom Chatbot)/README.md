@@ -37,7 +37,9 @@ Lovable Frontend → Webhook → AI Agent → Google Gemini → Response → Fro
 ## APIs and Services Required
 
 ### Primary APIs
+
 - **n8n Webhook** (Built-in)
+
   - Used for: Receiving requests from frontend
   - Configuration: Customizable webhook endpoints
 
@@ -48,6 +50,7 @@ Lovable Frontend → Webhook → AI Agent → Google Gemini → Response → Fro
 ### API Configuration
 
 #### Google Gemini Setup
+
 ```json
 {
   "credentials": {
@@ -62,19 +65,23 @@ Lovable Frontend → Webhook → AI Agent → Google Gemini → Response → Fro
 ## Configuration
 
 ### Webhook Settings
+
 - **HTTP Method**: POST
 - **Path**: e1c443fd-03ea-43a6-85c4-794d4d1e0111
 - **Response Mode**: responseNode
 
 ### AI Agent Configuration
+
 The AI agent is configured to:
+
 - Answer any question asked by the user
 - Provide clear, well-formatted responses
-- Avoid using special characters like *, #
+- Avoid using special characters like \*, #
 - Format text with proper line breaks and structure
 - Process the question from: `{{ $json.body.prompt }}`
 
 ### Response Format
+
 - Clear and concise answers
 - Proper text formatting with line breaks
 - No special formatting characters
@@ -82,9 +89,7 @@ The AI agent is configured to:
 
 ## Workflow Image
 
-![Apna GPT Custom Chatbot Workflow](https://ibb.co/mrsZB3z7)
-
-*Note: This is a placeholder image. Replace with actual workflow screenshot when hosted.*
+<img src="workflow.png" alt="Workflow Screenshot" width="1200" height="700"/>
 
 ## Installation and Setup
 
@@ -100,4 +105,4 @@ The AI agent is configured to:
 **Version**: 1.0  
 **Last Updated**: August 2025  
 **Compatibility**: n8n v1.0+  
-**Author**: Amit Gangwar 
+**Author**: Amit Gangwar

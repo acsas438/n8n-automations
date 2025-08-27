@@ -40,11 +40,14 @@ Schedule Trigger → Gmail All Mails → Get Message Details → AI Agent → Re
 ## APIs and Services Required
 
 ### Primary APIs
+
 - **Gmail API** (OAuth2)
+
   - Permissions: Read, Send, Modify emails
   - Used for: Email fetching, sending replies, marking as read
 
 - **Google Gemini API** (PaLM)
+
   - Model: Google Gemini Chat Model
   - Used for: AI-powered response generation
 
@@ -55,6 +58,7 @@ Schedule Trigger → Gmail All Mails → Get Message Details → AI Agent → Re
 ### API Configuration
 
 #### Gmail Setup
+
 ```json
 {
   "credentials": {
@@ -67,6 +71,7 @@ Schedule Trigger → Gmail All Mails → Get Message Details → AI Agent → Re
 ```
 
 #### Google Gemini Setup
+
 ```json
 {
   "credentials": {
@@ -79,6 +84,7 @@ Schedule Trigger → Gmail All Mails → Get Message Details → AI Agent → Re
 ```
 
 #### Microsoft Excel Setup
+
 ```json
 {
   "credentials": {
@@ -93,12 +99,15 @@ Schedule Trigger → Gmail All Mails → Get Message Details → AI Agent → Re
 ## Configuration
 
 ### Schedule Settings
+
 - **Interval**: Every 2 hours (configurable)
 - **Field**: Hours
 - **Hours Interval**: 2
 
 ### AI Response Template
+
 The AI agent is configured to generate responses with:
+
 - Professional greeting: "Hey Thanks for reaching out"
 - HTML formatting with inline CSS
 - Arial font family
@@ -107,6 +116,7 @@ The AI agent is configured to generate responses with:
 - Signature: "Best regards, Your Amit Gangwar"
 
 ### Excel Logging Fields
+
 - Sender Name
 - From Email
 - Body Draft Reply
@@ -115,9 +125,7 @@ The AI agent is configured to generate responses with:
 
 ## Workflow Image
 
-![AutoResponderX Workflow](workflow-diagram.png)
-
-*Note: This is a placeholder image. Replace with actual workflow screenshot when hosted.*
+<img src="workflow.png" alt="Workflow Screenshot" width="1200" height="700"/>
 
 ## Installation and Setup
 
@@ -132,4 +140,4 @@ The AI agent is configured to generate responses with:
 **Version**: 1.0  
 **Last Updated**: August 2025  
 **Compatibility**: n8n v1.0+  
-**Author**: Amit Gangwar 
+**Author**: Amit Gangwar

@@ -40,15 +40,19 @@ Manual Trigger → Input Data → AI Analysis → Screenshot Capture → Human A
 ## APIs and Services Required
 
 ### Primary APIs
+
 - **Google Gemini API** (PaLM)
+
   - Model: models/gemini-2.5-pro-preview-06-05
   - Used for: AI-powered content analysis and post generation
 
 - **ScreenshotOne API**
+
   - Used for: Capturing high-quality webpage screenshots
   - Configuration: API key required
 
 - **Upload-Post API** (Self-hosted n8n)
+
   - Used for: Publishing to X, LinkedIn, and Threads
   - Note: Requires self-hosted n8n instance
 
@@ -59,6 +63,7 @@ Manual Trigger → Input Data → AI Analysis → Screenshot Capture → Human A
 ### API Configuration
 
 #### Google Gemini Setup
+
 ```json
 {
   "credentials": {
@@ -71,6 +76,7 @@ Manual Trigger → Input Data → AI Analysis → Screenshot Capture → Human A
 ```
 
 #### ScreenshotOne Setup
+
 ```json
 {
   "apiKey": "Add_key_screenshotOne"
@@ -80,12 +86,15 @@ Manual Trigger → Input Data → AI Analysis → Screenshot Capture → Human A
 ## Configuration
 
 ### Input Parameters
+
 - **workflow_url**: URL of the article or webpage to share
 - **upload-post_user**: User identifier for upload-post service
 - **ScreenshotOne_API_KEY**: API key for screenshot service
 
 ### AI Content Generation
+
 The AI agent is configured to:
+
 - Analyze webpage content and extract key information
 - Generate platform-specific posts with appropriate tone and style
 - Create engaging content for each social network
@@ -93,6 +102,7 @@ The AI agent is configured to:
 - Maintain brand voice and messaging consistency
 
 ### Platform-Specific Content
+
 - **LinkedIn**: Professional, business-focused posts in Spanish
 - **X (Twitter)**: Concise, engaging threads in English
 - **Threads**: Conversational, relaxed tone in Spanish
@@ -100,9 +110,7 @@ The AI agent is configured to:
 
 ## Workflow Image
 
-![SocioSync Auto-Publish Workflow](workflow-diagram.png)
-
-*Note: This is a placeholder image. Replace with actual workflow screenshot when hosted.*
+<img src="workflow.png" alt="Workflow Screenshot" width="1200" height="700"/>
 
 ## Installation and Setup
 
@@ -116,21 +124,25 @@ The AI agent is configured to:
 ## Who Is This For?
 
 ### Content Curators & Marketers
+
 - Effortlessly share valuable industry news and articles
 - Maintain consistent social media presence
 - Save time on content creation and distribution
 
 ### Social Media Managers
+
 - Keep social feeds consistently active
 - Ensure high-quality, relevant content
 - Reduce manual overhead and repetitive tasks
 
 ### Community Builders & Brand Evangelists
+
 - Quickly disseminate product updates and tutorials
 - Share blog posts and announcements efficiently
 - Build community engagement across platforms
 
 ### Professionals & Thought Leaders
+
 - Build personal brand through automated content sharing
 - Share insightful articles with professional visuals
 - Add unique perspective to industry discussions
@@ -140,4 +152,4 @@ The AI agent is configured to:
 **Version**: 1.0  
 **Last Updated**: August 2025  
 **Compatibility**: n8n v1.0+  
-**Author**: Amit Gangwar 
+**Author**: Amit Gangwar

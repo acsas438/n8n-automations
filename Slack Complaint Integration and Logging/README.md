@@ -22,12 +22,14 @@ Form Submission → AI Classification → Merge Data → Switch Routing → Exce
 ### Detailed Workflow Steps
 
 1. **Form Trigger**: Captures user submissions from web form with fields:
+
    - Full Name
    - Email Address
    - Contact Info (optional)
    - Feedback/Complaint
 
 2. **AI Agent**: Uses Google Gemini to categorize feedback into:
+
    - Complain
    - Compliment
    - Feature Addition Request
@@ -53,19 +55,24 @@ Form Submission → AI Classification → Merge Data → Switch Routing → Exce
 ## APIs and Services Required
 
 ### Primary APIs
+
 - **n8n Form Trigger** (Built-in)
+
   - Used for: Web form submission handling
   - Configuration: Customizable form fields and validation
 
 - **Google Gemini API** (PaLM)
+
   - Model: Google Gemini Chat Model
   - Used for: AI-powered complaint categorization
 
 - **Microsoft Excel API** (OAuth2)
+
   - Permissions: Read/Write access to specific workbooks
   - Used for: Complaint logging and tracking
 
 - **Slack API** (OAuth2)
+
   - Permissions: Send messages to channels
   - Used for: Team notifications
 
@@ -76,6 +83,7 @@ Form Submission → AI Classification → Merge Data → Switch Routing → Exce
 ### API Configuration
 
 #### Google Gemini Setup
+
 ```json
 {
   "credentials": {
@@ -88,6 +96,7 @@ Form Submission → AI Classification → Merge Data → Switch Routing → Exce
 ```
 
 #### Microsoft Excel Setup
+
 ```json
 {
   "credentials": {
@@ -100,6 +109,7 @@ Form Submission → AI Classification → Merge Data → Switch Routing → Exce
 ```
 
 #### Slack Setup
+
 ```json
 {
   "credentials": {
@@ -112,6 +122,7 @@ Form Submission → AI Classification → Merge Data → Switch Routing → Exce
 ```
 
 #### Gmail Setup
+
 ```json
 {
   "credentials": {
@@ -126,38 +137,42 @@ Form Submission → AI Classification → Merge Data → Switch Routing → Exce
 ## Configuration
 
 ### Form Fields
+
 - **Full Name**: Required text field
 - **Email Address**: Required email field
 - **Contact Info**: Optional number field
 - **Feedback**: Required text area for complaint details
 
 ### AI Classification Categories
+
 - **Complain**: General complaints and issues
 - **Compliment**: Positive feedback and praise
 - **Feature Addition Request**: Feature requests and suggestions
 
 ### Excel Logging Structure
+
 Each category logs the following fields:
+
 - Full Name
 - Email Address
 - Contact Info
 - Feedback Content
 
 ### Slack Channel Configuration
+
 - **Channel ID**: C09BRN78RC7 (all-amits-workspace)
 - **Message Format**: Includes full complaint details
 - **Notification Type**: Instant posting for immediate visibility
 
 ### Email Confirmation Template
+
 - **Subject**: "Consideration of your Feedback"
 - **Message**: Acknowledgment with promise to address the complaint
 - **Tone**: Professional and reassuring
 
 ## Workflow Image
 
-![Slack Complaint Integration Workflow](workflow-diagram.png)
-
-*Note: This is a placeholder image. Replace with actual workflow screenshot when hosted.*
+<img src="workflow.png" alt="Workflow Screenshot" width="1200" height="700"/>
 
 ## Installation and Setup
 
@@ -173,4 +188,4 @@ Each category logs the following fields:
 **Version**: 1.0  
 **Last Updated**: August 2025  
 **Compatibility**: n8n v1.0+  
-**Author**: Amit Gangwar 
+**Author**: Amit Gangwar
