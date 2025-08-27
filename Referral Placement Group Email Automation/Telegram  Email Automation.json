@@ -1,0 +1,196 @@
+{
+  "name": "Telegram  Email Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "channel_post",
+          "edited_channel_post",
+          "message",
+          "edited_message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -112,
+        -64
+      ],
+      "id": "f033d1b9-f6eb-466c-81cd-eae6c68de39b",
+      "name": "Telegram Trigger",
+      "webhookId": "6ba5f509-c5c7-45fe-ac84-7f9941b159ea",
+      "credentials": {
+        "telegramApi": {
+          "id": "iEKxa2pMinqQVYrd",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Getting the Telegram message text\nconst text = $json[\"message\"][\"text\"];\n// Regex matches\nconst roleMatch = text.match(/role\\s*[-:]\\s*(.*)/i);\nconst companyMatch = text.match(/company\\s*[-:]\\s*(.*)/i);\nconst emailMatch = text.match(/[\\w.-]+@[\\w.-]+\\.\\w+/);\n\nconst result = {\n  role: roleMatch ? roleMatch[1].trim() : null,\n  company: companyMatch ? companyMatch[1].trim() : null,\n  email: emailMatch ? emailMatch[0] : null\n};\n\nreturn [{ json: result }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        112,
+        -64
+      ],
+      "id": "b6eda65e-a2e3-4421-bb17-3c75dd8adf52",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a210f043-b2e6-4943-992c-8ce4944700ab",
+              "name": "subject",
+              "value": "=Job Application for {{$json[\"role\"]}} at {{$json[\"company\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "790269b6-44bd-469c-a80b-5b0b581e746a",
+              "name": "body",
+              "value": "=Dear Hiring Team,\n\nI hope this message finds you well.\n\nI am writing to express my interest in the {{ $json.role }} position at {{ $json.company }}. I graduated with a B.Tech degree in Information Technology from BIET Jhansi this year.\n\nAdditional highlights:\n\n• Currently working at i8cloud as a Software Developer, where I develop backend features for Odoo using Python, XML, and PostgreSQL\n• 4x internships at Wittyhat, Avronn Technologies, Trioo (Stealth Startup), and Bluestock Fintech\n• Built 15+ full-stack and frontend projects independently\n• Solved 1600+ coding problems across platforms\n(Knight @ LeetCode, 4★ @ CodeChef, Specialist @ Codeforces)\n• Winner at i8CLOUD Hackathon 2025: Developed an AI-powered content co-pilot that generates blogs from user input, automates social sharing, provides full multilingual blog translations (5+ languages), and tracks engagement; integrated n8n workflows for automating social media posting\n• Proficient in a broad tech stack, including:\nC++, Python, Git, JavaScript, TypeScript, React.js, Next.js, Node.js, Express.js, MongoDB, Firebase (Firestore, Auth, FCM), Redux, Zustand, Tailwind CSS, WebSockets, JWT, Zod, Async JavaScript, and AI integrations such as Cursor AI\n\nI’m genuinely excited about the opportunity to contribute to {{ $json.company }} and would welcome the chance to discuss how I can support your engineering team.\n\nResume: https://drive.google.com/file/d/1o_MyUmLgRhE5wYzWn3GS0J13Qbn0Xnr3/view?usp=sharing\n\nGitHub: https://github.com/Xerox563\n\nThank you for your time and consideration. I look forward to hearing from you.\n\nBest regards,\nAmit Gangwar\nPhone: +91 82794 97062",
+              "type": "string"
+            },
+            {
+              "id": "bcc66934-cd1c-4814-be62-691dcd9afddf",
+              "name": "to",
+              "value": "={{$json[\"email\"]}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        336,
+        32
+      ],
+      "id": "d3c9e533-2231-475d-bc5b-db218124db30",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.to }}",
+        "subject": "={{ $json.subject }}",
+        "emailType": "text",
+        "message": "={{ $json.body }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        560,
+        32
+      ],
+      "id": "e1ea01a0-d9b3-45bf-bffa-a11a1cfd7dcf",
+      "name": "Send a message",
+      "webhookId": "a36f5684-70ef-4343-abcd-39dafee637da",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "S4r3f2beV6ntsXj2",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "worksheet",
+        "operation": "append",
+        "workbook": {
+          "__rl": true,
+          "value": "D7E03B7E113167B5!s59f95881be0545afad68c4a2b2bc69b1",
+          "mode": "list",
+          "cachedResultName": "n8n-telegram-email",
+          "cachedResultUrl": "https://onedrive.live.com/personal/d7e03b7e113167b5/_layouts/15/doc.aspx?resid=59f95881-be05-45af-ad68-c4a2b2bc69b1&cid=d7e03b7e113167b5"
+        },
+        "worksheet": {
+          "__rl": true,
+          "value": "{9CC61533-17A2-4CCE-A617-60AA48CA0DD7}",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://onedrive.live.com/personal/d7e03b7e113167b5/_layouts/15/doc.aspx?resid=59f95881-be05-45af-ad68-c4a2b2bc69b1&cid=d7e03b7e113167b5&activeCell=Sheet1!A1"
+        },
+        "dataMode": "autoMap",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.microsoftExcel",
+      "typeVersion": 2.1,
+      "position": [
+        336,
+        -160
+      ],
+      "id": "913e2108-dfe4-43aa-acb8-4cd3bd06e7de",
+      "name": "Append data to sheet",
+      "credentials": {
+        "microsoftExcelOAuth2Api": {
+          "id": "zAqUK1T4p15JSwKu",
+          "name": "Microsoft Excel account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Append data to sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "f5ecce82-d73c-4270-961e-eb27bc4f7876",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "2744852a8664d62cb3378996cb4634f1b27b674aee508572552bf216daa89217"
+  },
+  "id": "D5t9amYiYKlvC0R2",
+  "tags": []
+}

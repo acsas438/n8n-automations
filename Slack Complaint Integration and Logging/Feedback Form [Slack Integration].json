@@ -1,0 +1,528 @@
+{
+  "name": "Feedback Form [Slack Integration]",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "User Feedback form",
+        "formDescription": "This is a Feedback Form ..",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Full Name",
+              "placeholder": "Type yout full Name",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Email Address",
+              "placeholder": "Type your Email Address",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Contact Info",
+              "fieldType": "number",
+              "placeholder": "Type Your contact Number"
+            },
+            {
+              "fieldLabel": "Feedback",
+              "placeholder": "Type Your Feedback"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        -80
+      ],
+      "id": "d57f96c2-8caf-4eef-b049-1697136d2a95",
+      "name": "On form submission",
+      "webhookId": "8bb97712-9566-47b9-9214-e07b6bde2c17"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Your task is to do whatever the Feedback coming from the previous step your task is to categorize it in either  Complain ,  Compliment,  Feature Addition Request , Feedback is :  {{ $json.Feedback }} , also output should be clear means ** should not come",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        224,
+        48
+      ],
+      "id": "603dc9f3-c58c-404e-aef5-166e0a32369e",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        304,
+        272
+      ],
+      "id": "454cf918-bb92-462c-85b1-57d810730996",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "olMD4CderjfOxOJN",
+          "name": "Google Gemini(PaLM) Api account 4"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        576,
+        -80
+      ],
+      "id": "861ee191-96e0-4a93-aada-e18852c8f416",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.output }}",
+                    "rightValue": "Complain",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "63bbf0fb-5a6e-4728-bfca-0e919eb1c0ff"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "000b6114-fdbb-43c3-9cac-86e71afd0455",
+                    "leftValue": "={{ $json.output }}",
+                    "rightValue": "Compliment",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "82818b29-8eb4-4ebc-8787-71187b16dcd5",
+                    "leftValue": "={{ $json.output }}",
+                    "rightValue": "Feature Addition Request",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        800,
+        -96
+      ],
+      "id": "35331e05-c52d-4edb-81c2-45f77d88e886",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "resource": "worksheet",
+        "operation": "append",
+        "workbook": {
+          "__rl": true,
+          "value": "D7E03B7E113167B5!sb04af3c488074aa8b1b0ee3f7ca5c79e",
+          "mode": "list",
+          "cachedResultName": "n8n Feedback Form",
+          "cachedResultUrl": "https://onedrive.live.com/personal/d7e03b7e113167b5/_layouts/15/doc.aspx?resid=b04af3c4-8807-4aa8-b1b0-ee3f7ca5c79e&cid=d7e03b7e113167b5"
+        },
+        "worksheet": {
+          "__rl": true,
+          "value": "{00000000-0001-0000-0000-000000000000}",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://onedrive.live.com/personal/d7e03b7e113167b5/_layouts/15/doc.aspx?resid=b04af3c4-8807-4aa8-b1b0-ee3f7ca5c79e&cid=d7e03b7e113167b5&activeCell=Sheet1!A1"
+        },
+        "fieldsUi": {
+          "values": [
+            {
+              "column": "Full Name",
+              "fieldValue": "={{ $json['Full Name'] }}"
+            },
+            {
+              "column": "Email Address",
+              "fieldValue": "={{ $json['Email Address'] }}"
+            },
+            {
+              "column": "Contact Info",
+              "fieldValue": "={{ $json['Contact Info'] }}"
+            },
+            {
+              "column": "Feedback",
+              "fieldValue": "={{ $json.Feedback }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.microsoftExcel",
+      "typeVersion": 2.1,
+      "position": [
+        1024,
+        -80
+      ],
+      "id": "8b920863-8b03-40d1-9b23-66743815b4b9",
+      "name": "Append data to sheet1",
+      "credentials": {
+        "microsoftExcelOAuth2Api": {
+          "id": "zAqUK1T4p15JSwKu",
+          "name": "Microsoft Excel account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "worksheet",
+        "operation": "append",
+        "workbook": {
+          "__rl": true,
+          "value": "D7E03B7E113167B5!sb04af3c488074aa8b1b0ee3f7ca5c79e",
+          "mode": "list",
+          "cachedResultName": "n8n Feedback Form",
+          "cachedResultUrl": "https://onedrive.live.com/personal/d7e03b7e113167b5/_layouts/15/doc.aspx?resid=b04af3c4-8807-4aa8-b1b0-ee3f7ca5c79e&cid=d7e03b7e113167b5"
+        },
+        "worksheet": {
+          "__rl": true,
+          "value": "{00000000-0001-0000-0000-000000000000}",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://onedrive.live.com/personal/d7e03b7e113167b5/_layouts/15/doc.aspx?resid=b04af3c4-8807-4aa8-b1b0-ee3f7ca5c79e&cid=d7e03b7e113167b5&activeCell=Sheet1!A1"
+        },
+        "fieldsUi": {
+          "values": [
+            {
+              "column": "Full Name",
+              "fieldValue": "={{ $json['Full Name'] }}"
+            },
+            {
+              "column": "Email Address",
+              "fieldValue": "={{ $json['Email Address'] }}"
+            },
+            {
+              "column": "Contact Info",
+              "fieldValue": "={{ $json['Contact Info'] }}"
+            },
+            {
+              "column": "Feedback",
+              "fieldValue": "={{ $json.Feedback }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.microsoftExcel",
+      "typeVersion": 2.1,
+      "position": [
+        1024,
+        112
+      ],
+      "id": "b20bd8c6-b448-43f6-a4ce-41dd6a008211",
+      "name": "Append data to sheet2",
+      "credentials": {
+        "microsoftExcelOAuth2Api": {
+          "id": "zAqUK1T4p15JSwKu",
+          "name": "Microsoft Excel account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "worksheet",
+        "operation": "append",
+        "workbook": {
+          "__rl": true,
+          "value": "D7E03B7E113167B5!sb04af3c488074aa8b1b0ee3f7ca5c79e",
+          "mode": "list",
+          "cachedResultName": "n8n Feedback Form",
+          "cachedResultUrl": "https://onedrive.live.com/personal/d7e03b7e113167b5/_layouts/15/doc.aspx?resid=b04af3c4-8807-4aa8-b1b0-ee3f7ca5c79e&cid=d7e03b7e113167b5"
+        },
+        "worksheet": {
+          "__rl": true,
+          "value": "{00000000-0001-0000-0000-000000000000}",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://onedrive.live.com/personal/d7e03b7e113167b5/_layouts/15/doc.aspx?resid=b04af3c4-8807-4aa8-b1b0-ee3f7ca5c79e&cid=d7e03b7e113167b5&activeCell=Sheet1!A1"
+        },
+        "fieldsUi": {
+          "values": [
+            {
+              "column": "Full Name",
+              "fieldValue": "={{ $json['Full Name'] }}"
+            },
+            {
+              "column": "Email Address",
+              "fieldValue": "={{ $json['Email Address'] }}"
+            },
+            {
+              "column": "Contact Info",
+              "fieldValue": "={{ $json['Contact Info'] }}"
+            },
+            {
+              "column": "Feedback",
+              "fieldValue": "={{ $json.Feedback }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.microsoftExcel",
+      "typeVersion": 2.1,
+      "position": [
+        1024,
+        -272
+      ],
+      "id": "560d399c-85dd-466e-b246-d3464bf0a94f",
+      "name": "Append data to sheet",
+      "credentials": {
+        "microsoftExcelOAuth2Api": {
+          "id": "zAqUK1T4p15JSwKu",
+          "name": "Microsoft Excel account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C09BRN78RC7",
+          "mode": "list",
+          "cachedResultName": "all-amits-workspace"
+        },
+        "text": "={{ $json.Feedback }}",
+        "otherOptions": {}
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [
+        1248,
+        -80
+      ],
+      "id": "9910cbc3-da37-4eff-aeb3-e7b3e00d056d",
+      "name": "Send a message1",
+      "webhookId": "2fad4aaf-29b0-40c1-b745-4f436f24cb6c",
+      "credentials": {
+        "slackOAuth2Api": {
+          "id": "ISp9TLUhNaCPVQYB",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Append data to sheet').item.json['Email Address'] }}",
+        "subject": "Consideration of your Feedback",
+        "emailType": "text",
+        "message": "Hey !! our team has recieved your complaint request .\nWe are working on it and will rectify it soon . \nThanks for your time !!",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1456,
+        -80
+      ],
+      "id": "8d263666-d94a-493d-ba74-081422f030a9",
+      "name": "Send a message",
+      "webhookId": "930416d2-abc3-4396-9577-fc72d3eac773",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "S4r3f2beV6ntsXj2",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Append data to sheet",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Append data to sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Append data to sheet2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append data to sheet": {
+      "main": [
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append data to sheet1": {
+      "main": [
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append data to sheet2": {
+      "main": [
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message1": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "49e23f06-7a26-439c-a55d-bd317014d439",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "2744852a8664d62cb3378996cb4634f1b27b674aee508572552bf216daa89217"
+  },
+  "id": "7V0OcuffcIoB5LEL",
+  "tags": []
+}

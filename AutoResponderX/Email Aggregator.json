@@ -1,0 +1,332 @@
+{
+  "name": "Email Aggregator",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 2
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        -336
+      ],
+      "id": "c5dffc1e-3650-4c3f-8129-bcba30f86a4a",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "limit": 1,
+        "filters": {
+          "labelIds": [
+            "UNREAD"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        224,
+        -336
+      ],
+      "id": "39ccda23-2cb9-4590-b6ff-014ea2cf2323",
+      "name": "Gmail All Mails",
+      "webhookId": "9120e718-20b9-4396-ae87-2c39f692227a",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "S4r3f2beV6ntsXj2",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "messageId": "={{ $json.threadId }}",
+        "simple": false,
+        "options": {
+          "downloadAttachments": true
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        448,
+        -336
+      ],
+      "id": "3147bac7-a31c-4a1c-b36a-dedddf8f0cdd",
+      "name": "Get a message details",
+      "webhookId": "6efd72bb-82c0-4941-86f8-cfb9c2a54af8",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "S4r3f2beV6ntsXj2",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=start with Hey Thanks for reaching out ,Generate a polite, professional, and well-structured email reply in HTML format with inline CSS for styling. I just want body text.\nMake it visually appealing with proper headings, bullet points, and color highlights for key sections.\n\nThe email should use:\n- Font: Arial, sans-serif\n- Heading color: #0078D7 (blue)\n- Line height: 1.6\n- Add a greeting and a closing signature.\n\nHere is the original email: {{ $json.text }}\nat end in place of my name  Best regards : Your Amit Gangwar. also it should be in proper formatted manner , start with thanks for reaching out ",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        672,
+        -336
+      ],
+      "id": "83c2f283-df01-405f-b416-1e010aa91064",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        752,
+        -112
+      ],
+      "id": "75388c2e-6e05-4ae1-ac17-a579bba1477d",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "olMD4CderjfOxOJN",
+          "name": "Google Gemini(PaLM) Api account 4"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "worksheet",
+        "operation": "append",
+        "workbook": {
+          "__rl": true,
+          "value": "D7E03B7E113167B5!s39e4a9fb11a944b48b2a56c382b607af",
+          "mode": "list",
+          "cachedResultName": "Email Reply Agent",
+          "cachedResultUrl": "https://onedrive.live.com/personal/d7e03b7e113167b5/_layouts/15/doc.aspx?resid=39e4a9fb-11a9-44b4-8b2a-56c382b607af&cid=d7e03b7e113167b5"
+        },
+        "worksheet": {
+          "__rl": true,
+          "value": "{00000000-0001-0000-0000-000000000000}",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://onedrive.live.com/personal/d7e03b7e113167b5/_layouts/15/doc.aspx?resid=39e4a9fb-11a9-44b4-8b2a-56c382b607af&cid=d7e03b7e113167b5&activeCell=Sheet1!A1"
+        },
+        "fieldsUi": {
+          "values": [
+            {
+              "column": "Sender Name",
+              "fieldValue": "={{ $('Get a message details').item.json.from.value[0].name }}"
+            },
+            {
+              "column": "From Email",
+              "fieldValue": "={{ $('Get a message details').item.json.from.value[0].address }}"
+            },
+            {
+              "column": "Body Draft Reply",
+              "fieldValue": "={{ $json.plainText }}"
+            },
+            {
+              "column": "Thread ID",
+              "fieldValue": "={{ $('Get a message details').item.json.threadId }}"
+            },
+            {
+              "column": "Email Body",
+              "fieldValue": "={{ $('Get a message details').item.json.text }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.microsoftExcel",
+      "typeVersion": 2.1,
+      "position": [
+        1248,
+        -432
+      ],
+      "id": "886800b4-09b9-41dc-b6a4-28068abc850b",
+      "name": "Append data to sheet",
+      "credentials": {
+        "microsoftExcelOAuth2Api": {
+          "id": "zAqUK1T4p15JSwKu",
+          "name": "Microsoft Excel account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "reply",
+        "messageId": "={{ $('Get a message details').item.json.id }}",
+        "message": "={{ $json.output }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1024,
+        -240
+      ],
+      "id": "d8216573-3b7d-4ab9-800a-8b31e55f9f15",
+      "name": "Reply to a message",
+      "webhookId": "8d11cb45-1a8e-44f1-b46b-42d7be6e2cc4",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "S4r3f2beV6ntsXj2",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "markAsRead",
+        "messageId": "={{ $('Get a message details').item.json.id }}"
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1248,
+        -240
+      ],
+      "id": "3e3a7334-13ab-475d-bc45-abf06d936ddc",
+      "name": "Mark a message as read",
+      "webhookId": "54e6f620-d842-4e83-9394-9cb621f2a351",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "S4r3f2beV6ntsXj2",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{\n  plainText: $json.output.replace(/<\\/?[^>]+(>|$)/g, \"\") // remove HTML tags\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1024,
+        -432
+      ],
+      "id": "31cc374e-b794-4762-9b70-7398ed2f9b2d",
+      "name": "Code"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Gmail All Mails",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail All Mails": {
+      "main": [
+        [
+          {
+            "node": "Get a message details",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a message details": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Reply to a message",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append data to sheet": {
+      "main": [
+        []
+      ]
+    },
+    "Reply to a message": {
+      "main": [
+        [
+          {
+            "node": "Mark a message as read",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mark a message as read": {
+      "main": [
+        []
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Append data to sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "3061f85c-4ef0-4023-a105-a16a9f3cd07b",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "2744852a8664d62cb3378996cb4634f1b27b674aee508572552bf216daa89217"
+  },
+  "id": "TgfwUvcDzlvZHTd3",
+  "tags": []
+}

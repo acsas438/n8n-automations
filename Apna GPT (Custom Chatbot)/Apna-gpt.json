@@ -1,0 +1,116 @@
+{
+  "name": "Webhooks",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "e1c443fd-03ea-43a6-85c4-794d4d1e0111",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "c5df2c5d-2811-4d8d-ba95-70716b65d08a",
+      "name": "Webhook",
+      "webhookId": "e1c443fd-03ea-43a6-85c4-794d4d1e0111"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=whatever the prompt asks , answer that question okk got it , also the answer should be clear not any *, # it should be exactly correct and clear.\nquestion :  {{ $json.body.prompt }} , the text should be well formatted like new line and all",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "c9d656c5-aa77-471a-9684-f3ca1c9cd972",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        80,
+        208
+      ],
+      "id": "1850fdfa-9ffa-4580-8d90-688dd830062e",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "olMD4CderjfOxOJN",
+          "name": "Google Gemini(PaLM) Api account 4"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        560,
+        0
+      ],
+      "id": "59c11989-281c-4353-8553-ea55b718b329",
+      "name": "Respond to Webhook"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "4cfa8cd1-5771-4079-a2f8-434e6380d021",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "2744852a8664d62cb3378996cb4634f1b27b674aee508572552bf216daa89217"
+  },
+  "id": "cWpvUmSarzAzS8Rv",
+  "tags": []
+}
