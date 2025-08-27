@@ -22,12 +22,14 @@ Telegram Trigger → Data Extraction → Excel Logging → Email Template → Gm
 ### Detailed Workflow Steps
 
 1. **Telegram Trigger**: Monitors specified Telegram channel for new messages with updates:
+
    - channel_post
    - edited_channel_post
    - message
    - edited_message
 
 2. **Data Extraction**: Uses JavaScript code to parse message content and extract:
+
    - **Role**: Job position/title using regex pattern `/role\s*[-:]\s*(.*)/i`
    - **Company**: Company name using regex pattern `/company\s*[-:]\s*(.*)/i`
    - **Email**: Contact email using regex pattern `/[\w.-]+@[\w.-]+\.\w+/`
@@ -35,6 +37,7 @@ Telegram Trigger → Data Extraction → Excel Logging → Email Template → Gm
 3. **Excel Logging**: Records extracted data for tracking and analytics
 
 4. **Email Template**: Prepares personalized application email with:
+
    - Dynamic subject line: "Job Application for [Role] at [Company]"
    - Professional body with candidate details and experience
    - Resume and GitHub links
@@ -53,11 +56,14 @@ Telegram Trigger → Data Extraction → Excel Logging → Email Template → Gm
 ## APIs and Services Required
 
 ### Primary APIs
+
 - **Telegram Bot API** (OAuth2)
+
   - Permissions: Read messages from channels
   - Used for: Monitoring job posts in referral groups
 
 - **Gmail API** (OAuth2)
+
   - Permissions: Send emails
   - Used for: Delivering application emails to hiring managers
 
@@ -68,6 +74,7 @@ Telegram Trigger → Data Extraction → Excel Logging → Email Template → Gm
 ### API Configuration
 
 #### Telegram Setup
+
 ```json
 {
   "credentials": {
@@ -80,6 +87,7 @@ Telegram Trigger → Data Extraction → Excel Logging → Email Template → Gm
 ```
 
 #### Gmail Setup
+
 ```json
 {
   "credentials": {
@@ -92,6 +100,7 @@ Telegram Trigger → Data Extraction → Excel Logging → Email Template → Gm
 ```
 
 #### Microsoft Excel Setup
+
 ```json
 {
   "credentials": {
@@ -106,13 +115,14 @@ Telegram Trigger → Data Extraction → Excel Logging → Email Template → Gm
 ## Configuration
 
 ### Data Extraction Patterns
+
 The workflow uses JavaScript regex patterns to extract information:
 
 ```javascript
 // Role extraction
 const roleMatch = text.match(/role\s*[-:]\s*(.*)/i);
 
-// Company extraction  
+// Company extraction
 const companyMatch = text.match(/company\s*[-:]\s*(.*)/i);
 
 // Email extraction
@@ -120,6 +130,7 @@ const emailMatch = text.match(/[\w.-]+@[\w.-]+\.\w+/);
 ```
 
 ### Email Template Configuration
+
 - **Subject**: "Job Application for {{role}} at {{company}}"
 - **Recipient**: Extracted email address from job post
 - **Content**: Professional application template with:
@@ -130,7 +141,9 @@ const emailMatch = text.match(/[\w.-]+@[\w.-]+\.\w+/);
   - Contact information
 
 ### Excel Logging Structure
+
 Records the following fields:
+
 - Role (extracted job title)
 - Company (extracted company name)
 - Email (extracted contact email)
@@ -139,9 +152,7 @@ Records the following fields:
 
 ## Workflow Image
 
-![Referral Placement Email Automation Workflow](workflow-diagram.png)
-
-*Note: This is a placeholder image. Replace with actual workflow screenshot when hosted.*
+<img src="workflow.png" alt="Workflow Screenshot" width="1200" height="700"/>
 
 ## Installation and Setup
 
@@ -157,4 +168,4 @@ Records the following fields:
 **Version**: 1.0  
 **Last Updated**: August 2025  
 **Compatibility**: n8n v1.0+  
-**Author**: Amit Gangwar 
+**Author**: Amit Gangwar
